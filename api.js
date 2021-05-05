@@ -52,7 +52,7 @@ const options = {
         info:{
             title: 'Translate Text',
             version: '1.0.0',
-            description: 'Translate your text into a language of your choice. The API utilizes Amazon Translate service. <br /> <br /> Know more about Amazon Translate [here](https://docs.aws.amazon.com/translate/latest/dg/what-is.html) <br /> Currently, Amazon Translate can translate text between the languages listed here -- [supported languages and their language codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages) <br /> <br /> Use __POST__ __/text__ API to translate your text from a source language to a target language. <br /> Use __POST__ __/text-custom__ API to translate your text from a source language to a target language with customization for a term. <br /> Use __PUT__ __/terminology__ API to define/update your customization for a term. <br /> Use __GET__ __/terminology/{TerminologyName}__ API to retieve properties of a customization file. <br /> Use __GET__ __/terminologies__ API to list all the customization files defined. <br /> Use __DELETE__ __/terminology__ API to delete a particular customization file.',
+            description: 'Translate your text into a language of your choice. The API utilizes Amazon Translate service. <br /> <br /> Know more about [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html) <br /> Currently, Amazon Translate can translate text between the languages listed here -- [supported languages and their language codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages) <br /> <br /> Use __POST__ __/text__ API to translate your text from a source language to a target language. <br /> Use __POST__ __/text-custom__ API to translate your text from a source language to a target language with customization for a term. <br /> Use __PUT__ __/terminology__ API to define/update your customization for a term. <br /> Use __GET__ __/terminology/{FileName}__ API to retrieve properties of a customization file. <br /> Use __GET__ __/terminologies__ API to list all the customization files defined. <br /> Use __DELETE__ __/terminology/{FileName}__ API to delete a particular customization file.',
         },
         host: '143.198.126.56:3000',
         basePath: '/api/translate',
@@ -95,7 +95,7 @@ app.use(cors());
  *      parameters:
  *          - in: body
  *            name: Translate Text
- *            description: Codes for the source as well as the target languages, and the text to be translated. Everything inside the quotes. <br /><br /> - __SOURCE_LANGUAGE__ -- Source language code of your text ( __Minimum length of 2 and Maximum length of 5__ ). For example - "en" <br /><br /> - __TARGET_LANGUAGE__ -- Target language code you want the text to be translated to ( __Minimum length of 2 and Maximum length of 5__ ). For example - "fr" <br /><br /> - __TEXT__ -- The text (in the source languge) you want to translate. ( __Maximum of 5,000 bytes long and Minimum length of 1__ ). <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
+ *            description: Codes for the source as well as the target languages, and the text to be translated. Everything inside quotes. <br /><br /> - __SOURCE_LANGUAGE__ -- Source language code of your text ( __Minimum length of 2 and Maximum length of 5__ ). For example - "en" <br /><br /> - __TARGET_LANGUAGE__ -- Target language code you want the text to be translated to ( __Minimum length of 2 and Maximum length of 5__ ). For example - "fr" <br /><br /> - __TEXT__ -- The text (in the source languge) you want to translate. ( __Maximum of 5,000 bytes long and Minimum length of 1__ ). <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
  *            required: true
  *            schema:
  *              type: object
@@ -196,7 +196,7 @@ app.use(cors());
  * /text-custom:
  *    post:
  *      summary: Translate a text to another language with customization
- *      description: Returns the text provided in a source language translated to the target language with customization. <br /><br /> __Why customization?__ <br /> For keeping a term intact throughout the translation regardless of the language. <br /> For example - 'United States' is translated to 'États-Unis' in French ("fr"). If you want this to appear as 'United States' in the French translation, you can define a customization file. <br /> <br /> Please refer to __'/list-terminology'__ API to see the list of terminology files present OR refer to __'/custom-terminology'__ API to define one. <br /><br /> Please refer to the 'Find more details' section for the compatible languages for customization.
+ *      description: Returns the text provided in a source language translated to the target language with customization. <br /><br /> __Why customization?__ <br /> For keeping a term intact throughout the translation regardless of the language. <br /> For example - 'United States' is translated to 'États-Unis' in French ("fr"). If you want this to appear as 'United States' in the French translation, you can define a customization file. <br /> <br /> Please refer to __GET '/terminologies'__ API to see the list of terminology files present OR refer to __PUT '/terminology'__ API to define one. <br /><br /> Please refer to the 'Find more details' section for the compatible languages for customization.
  *      tags:
  *          - 'Translate Text API'
  *      externalDocs:
@@ -205,7 +205,7 @@ app.use(cors());
  *      parameters:
  *          - in: body
  *            name: Translate Text with Customization  
- *            description: Codes for the source as well as the target languages, the text to be translated, and the customization file to be used. Everything inside the quotes. <br /> <br /> - __SOURCE_LANGUAGE__ -- Source language code of your text ( __Minimum length of 2 and Maximum length of 5__ ). For example - "en" <br /> <br /> - __TARGET_LANGUAGE__ -- Target language code you want the text to be translated to ( __Minimum length of 2 and Maximum length of 5__ ). For example - "fr" <br /><br /> - __TEXT__ -- The text (in the source languge) you want to be tranlated ( __Maximum of 5,000 bytes long and Minimum length of 1__ ). <br /> <br /> - __TERMINOLOGY__ -- The name of the customization file; Please provide only 1 customization filename in the array. <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
+ *            description: Codes for the source as well as the target languages, the text to be translated, and the customization file to be used. Everything inside quotes. <br /> <br /> - __SOURCE_LANGUAGE__ -- Source language code of your text ( __Minimum length of 2 and Maximum length of 5__ ). For example - "en" <br /> <br /> - __TARGET_LANGUAGE__ -- Target language code you want the text to be translated to ( __Minimum length of 2 and Maximum length of 5__ ). For example - "fr" <br /><br /> - __TEXT__ -- The text (in the source languge) you want to be tranlated ( __Maximum of 5,000 bytes long and Minimum length of 1__ ). <br /> <br /> - __TERMINOLOGY__ -- The name of the customization file; Please provide only 1 customization filename in the array. <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
  *            required: true
  *            schema:
  *              type: object
@@ -542,7 +542,7 @@ app.get('/api/translate/terminologies', cors(corsOptions), (req, res) =>{
 // ** API to retrive a custom terminology file associated with the profile ** 
 /**
  * @swagger
- * /terminology/{TerminologyName}:
+ * /terminology/{FileName}:
  *    get:
  *      summary: Retrieve properties of a customization file
  *      description: Returns properties and repository type of the customization file specified. 
@@ -550,7 +550,7 @@ app.get('/api/translate/terminologies', cors(corsOptions), (req, res) =>{
  *          - 'Customization API'
  *      parameters:
  *          - in: path
- *            name: TerminologyName
+ *            name: FileName
  *            description:  The name of the customization file to be retrieved ( __Minimum length of 1 and Maximum length of 256__ ).
  *            required: true
  *            type: string
@@ -564,12 +564,12 @@ app.get('/api/translate/terminologies', cors(corsOptions), (req, res) =>{
  *          500:
  *              description: InternalServerException - An internal server error occurred. Please check the validity of the parameters and retry your request.
  */
-app.get('/api/translate/terminology/:TerminologyName', cors(corsOptions), (req, res) =>{
+app.get('/api/translate/terminology/:FileName', cors(corsOptions), (req, res) =>{
 
     //sanitization and validation
-    if(req.params.TerminologyName.length >= 1 && req.params.TerminologyName.length <= 256){
-        if(/^([A-Za-z0-9-]_?)+$/.test(req.params.TerminologyName)){
-            var TerminologyName = req.params.TerminologyName;
+    if(req.params.FileName.length >= 1 && req.params.FileName.length <= 256){
+        if(/^([A-Za-z0-9-]_?)+$/.test(req.params.FileName)){
+            var TerminologyName = req.params.FileName;
         }
     }
 
@@ -611,28 +611,18 @@ app.get('/api/translate/terminology/:TerminologyName', cors(corsOptions), (req, 
 // ** API to delete a particular custom terminology file **
 /**
  * @swagger
- * /terminology:
+ * /terminology/{FileName}:
  *    delete:
  *      summary: Delete a customization file
  *      description: Returns a message if the deletion process is successful.
  *      tags:
  *          - 'Customization API'
- *      consumes:
- *          - application/json
  *      parameters:
- *          - in: body
- *            name: Delete customization file
- *            description: The name of the customization file to be deleted ( __Minimum length of 1 and Maximum length of 256__ ). <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
+ *          - in: path
+ *            name: FileName
+ *            description: The name of the customization file to be deleted ( __Minimum length of 1 and Maximum length of 256__ ).
  *            required: true
- *            schema:
- *              type: object
- *              required:
- *                  - TerminologyName
- *              properties:
- *                  TerminologyName:
- *                      type: string
- *      produces:
- *          - application/json
+ *            type: string
  *      responses:
  *          200:
  *              description: Successful - Successfully deleted the file.
@@ -647,12 +637,12 @@ app.get('/api/translate/terminology/:TerminologyName', cors(corsOptions), (req, 
  *          500:
  *              description: InternalServerException - An internal server error occurred. Please check the validity of the parameters and retry your request.
  */
-app.delete('/api/translate/terminology', cors(corsOptions), (req, res) =>{
+app.delete('/api/translate/terminology/:FileName', cors(corsOptions), (req, res) =>{
 
     //sanitization and validation
-    if(req.body.TerminologyName.length >= 1 && req.body.TerminologyName.length <= 256){
-        if(/^([A-Za-z0-9-]_?)+$/.test(req.body.TerminologyName)){
-            var TerminologyName = req.body.TerminologyName;
+    if(req.params.FileName.length >= 1 && req.params.FileName.length <= 256){
+        if(/^([A-Za-z0-9-]_?)+$/.test(req.params.FileName)){
+            var TerminologyName = req.params.FileName;
         }
     }
 
@@ -688,6 +678,7 @@ app.delete('/api/translate/terminology', cors(corsOptions), (req, res) =>{
         res.send('Either missing required paramter(s) or not of correct format');
     }
 });
+
 
 app.listen(port, () => {
     console.log(`Server started on ${port}`);
