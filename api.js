@@ -84,7 +84,7 @@ app.use(cors());
  * /text:
  *    post:
  *      summary: Translate a text to another language
- *      description: Returns the text provided in a source language translated to the target language. <br /><br /> Please refer to the list of supported languages in the 'Find more details' section.
+ *      description: Returns the text provided in a source language translated to the target language. <br /><br /> __Provide the source text in UTF-8 format.__ <br /><br /> Please refer to the list of supported languages in the 'Find more details' section.
  *      tags:
  *          - 'Translate Text API'
  *      externalDocs:
@@ -144,6 +144,7 @@ app.use(cors());
         var TARGET_LANGUAGE = req.body.TARGET_LANGUAGE;
     }
 
+    //5000 bytes allowed - taking 1 byte per character here (unicode character could take 1-4 bytes) 
     if(req.body.TEXT.length > 1 && req.body.TEXT.length <= 5000){
         var TEXT = req.body.TEXT;
     }
@@ -187,7 +188,7 @@ app.use(cors());
         });
     }else{
         res.status(404);
-        res.send('Either missing required paramter(s) or not of correct format');
+        res.send('Either missing required parameter(s) or not of correct format');
     }
 });
 
@@ -196,7 +197,7 @@ app.use(cors());
  * /text-custom:
  *    post:
  *      summary: Translate a text to another language with customization
- *      description: Returns the text provided in a source language translated to the target language with customization. <br /><br /> __Why customization?__ <br /> For keeping a term intact throughout the translation regardless of the language. <br /> For example - 'United States' is translated to 'États-Unis' in French ("fr"). If you want this to appear as 'United States' in the French translation, you can define a customization file. <br /> <br /> Please refer to __GET '/terminologies'__ API to see the list of terminology files present OR refer to __PUT '/terminology'__ API to define one. <br /><br /> Please refer to the 'Find more details' section for the compatible languages for customization.
+ *      description: Returns the text provided in a source language translated to the target language with customization. <br /><br /> __Why customization?__ <br /> For keeping a term intact throughout the translation regardless of the language. <br /> For example - 'United States' is translated to 'États-Unis' in French ("fr"). If you want this to appear as 'United States' in the French translation, you can define a customization file. <br /> <br /> Please refer to __GET '/terminologies'__ API to see the list of terminology files present OR refer to __PUT '/terminology'__ API to define one. <br /><br /> __Provide the source text in UTF-8 format.__ <br /><br /> Please refer to the 'Find more details' section for the compatible languages for customization.
  *      tags:
  *          - 'Translate Text API'
  *      externalDocs:
@@ -265,6 +266,7 @@ app.post('/api/translate/text-custom', cors(corsOptions), (req, res) => {
         var TERMINOLOGY = req.body.TERMINOLOGY; 
     }
 
+    //5000 bytes allowed - taking 1 byte per character here (unicode character could take 1-4 bytes)
     if(req.body.TEXT.length > 1 && req.body.TEXT.length <= 5000){
         var TEXT = req.body.TEXT;
     }
@@ -309,7 +311,7 @@ app.post('/api/translate/text-custom', cors(corsOptions), (req, res) => {
         }); 
     }else{
         res.status(404);
-        res.send('Either missing required paramter(s) or not of correct format');
+        res.send('Either missing required parameter(s) or not of correct format');
     }
 });
 
@@ -331,7 +333,7 @@ app.post('/api/translate/text-custom', cors(corsOptions), (req, res) => {
  *      parameters:
  *          - in: body
  *            name: Customization
- *            description: <br /> - __description__ -- A description for the customization file. <br /> <br /> - __SourceLanguageCode__ -- Code for source language ( __Minimum length of 2 and Maximum length of 5__ ). For example - "en" <br /> <br /> - __SourceTerm__ -- The term to be customized (provide the term in the source language). For example - "United States" <br /> <br />  - __TargetLanguageCodes__ -- Array of code(s) for the target language(s) - multiple target language codes can be specified ( Each code __Minimum length of 2 and Maximum length of 5__ ). For example - ["fr", "de"] <br /> <br /> - __TargetTerm__ -- Array of the customized term you want in the translated text - provide the term corresponding to each language code specified in 'TargetLanguageCodes'. For example - ["United States", "United States"] for ["fr", "de"] ; ["United States"] for ["fr"] etc. <br /> <br /> - __FileName__ -- Provide a name for the file ( __Minimum length of 1 and Maximum length of 256__ ). Providing a file with the same name as an existing one will overwrite the content with the new definition (the overwritten terminology may take up to 10 minutes to fully propagate and be available for use in the translation). Run '/list-terminology' API to check the names of existing files on the system. <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
+ *            description: <br /> - __description__ -- A description for the customization file. <br /> <br /> - __SourceLanguageCode__ -- Code for source language ( __Minimum length of 2 and Maximum length of 5__ ). For example - "en" <br /> <br /> - __SourceTerm__ -- The term to be customized (provide the term in the source language). For example - "United States" <br /> <br />  - __TargetLanguageCodes__ -- Array of code(s) for the target language(s) - multiple target language codes can be specified ( Each code __Minimum length of 2 and Maximum length of 5__ ). For example - ["fr", "de"] <br /> <br /> - __TargetTerm__ -- Array of the customized term you want in the translated text - provide the term corresponding to each language code specified in 'TargetLanguageCodes'. For example - ["United States", "United States"] for ["fr", "de"] ; ["United States"] for ["fr"] etc. <br /> <br /> - __FileName__ -- Provide a name for the file ( __Minimum length of 1 and Maximum length of 256__ ). Providing a file with the same name as an existing one will overwrite the content with the new definition (the overwritten terminology may take up to 10 minutes to fully propagate and be available for use in the translation). Run GET '/terminologies' API to check the names of existing files on the system. <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
  *            required: true
  *            schema:
  *              type: object
@@ -484,7 +486,7 @@ app.post('/api/translate/text-custom', cors(corsOptions), (req, res) => {
         });
     }else{
         res.status(404);
-        res.send('Either missing required paramter(s) or not of correct format');
+        res.send('Either missing required parameter(s) or not of correct format');
     }
 });
 
@@ -603,7 +605,7 @@ app.get('/api/translate/terminology/:FileName', cors(corsOptions), (req, res) =>
         });
     }else{
         res.status(404);
-        res.send('Either missing required paramter(s) or not of correct format');
+        res.send('Either missing required parameter(s) or not of correct format');
     }
 });
 
@@ -675,7 +677,7 @@ app.delete('/api/translate/terminology/:FileName', cors(corsOptions), (req, res)
         });
     }else{
         res.status(404);
-        res.send('Either missing required paramter(s) or not of correct format');
+        res.send('Either missing required parameter(s) or not of correct format');
     }
 });
 
