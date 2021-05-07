@@ -84,7 +84,7 @@ app.use(cors());
  * /text:
  *    post:
  *      summary: Translate a text to another language
- *      description: Returns the text provided in a source language translated to the target language. <br /><br /> __Provide the source text in UTF-8 format.__ <br /><br /> Please refer to the list of supported languages in the 'Find more details' section.
+ *      description: Returns the text provided in a source language translated to the target language. <br /> Provide the source text in UTF-8 format. <br /><br /> Please refer to the list of supported languages in the 'Find more details' section.
  *      tags:
  *          - 'Translate Text API'
  *      externalDocs:
@@ -95,7 +95,7 @@ app.use(cors());
  *      parameters:
  *          - in: body
  *            name: Translate Text
- *            description: Codes for the source as well as the target languages, and the text to be translated. Everything inside quotes. <br /><br /> - __SOURCE_LANGUAGE__ -- Source language code of your text ( __Minimum length of 2 and Maximum length of 5__ ). For example - "en" <br /><br /> - __TARGET_LANGUAGE__ -- Target language code you want the text to be translated to ( __Minimum length of 2 and Maximum length of 5__ ). For example - "fr" <br /><br /> - __TEXT__ -- The text (in the source languge) you want to translate. ( __Maximum of 5,000 bytes long and Minimum length of 1__ ). <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
+ *            description: Codes for the source as well as the target languages, and the text to be translated. Everything inside quotes. <br /><br /> - __SOURCE_LANGUAGE__ -- Source language code of your text ( __Minimum length of 2 characters and Maximum length of 5 characters__ ). For example - "en" <br /><br /> - __TARGET_LANGUAGE__ -- Target language code you want the text to be translated to ( __Minimum length of 2 characters and Maximum length of 5 characters__ ). For example - "fr" <br /><br /> - __TEXT__ -- The text (in the source languge) you want to translate. ( __Maximum of 5,000 bytes long and Minimum length of 1__ ). <br /> [Depending on your character set, this may be fewer than 5,000 characters. <br /> Approximately 4994 characters for English text (including punctuation marks, white space, comma etc.)] <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
  *            required: true
  *            schema:
  *              type: object
@@ -144,10 +144,10 @@ app.use(cors());
         var TARGET_LANGUAGE = req.body.TARGET_LANGUAGE;
     }
 
-    //5000 bytes allowed - taking 1 byte per character here (unicode character could take 1-4 bytes) 
-    if(req.body.TEXT.length > 1 && req.body.TEXT.length <= 5000){
-        var TEXT = req.body.TEXT;
-    }
+    //5000 bytes allowed - (unicode character could take 1-4 bytes) 
+   // if(req.body.TEXT.length > 1 && req.body.TEXT.length <= 5000){
+      var TEXT = req.body.TEXT;
+   // }
     
     if(SOURCE_LANGUAGE && TARGET_LANGUAGE && TEXT){
         var params = {
@@ -197,7 +197,7 @@ app.use(cors());
  * /text-custom:
  *    post:
  *      summary: Translate a text to another language with customization
- *      description: Returns the text provided in a source language translated to the target language with customization. <br /><br /> __Why customization?__ <br /> For keeping a term intact throughout the translation regardless of the language. <br /> For example - 'United States' is translated to 'États-Unis' in French ("fr"). If you want this to appear as 'United States' in the French translation, you can define a customization file. <br /> <br /> Please refer to __GET '/terminologies'__ API to see the list of terminology files present OR refer to __PUT '/terminology'__ API to define one. <br /><br /> __Provide the source text in UTF-8 format.__ <br /><br /> Please refer to the 'Find more details' section for the compatible languages for customization.
+ *      description: Returns the text provided in a source language translated to the target language with customization. <br /> Provide the source text in UTF-8 format. <br /><br /> __Why customization?__ <br /> For keeping a term intact throughout the translation regardless of the language. <br /> For example - 'United States' is translated to 'États-Unis' in French ("fr"). If you want this to appear as 'United States' in the French translation, you can define a customization file. <br /> <br /> Please refer to __GET '/terminologies'__ API to see the list of terminology files present OR refer to __PUT '/terminology'__ API to define one. <br /><br /> Please refer to the 'Find more details' section for the compatible languages for customization.
  *      tags:
  *          - 'Translate Text API'
  *      externalDocs:
@@ -206,7 +206,7 @@ app.use(cors());
  *      parameters:
  *          - in: body
  *            name: Translate Text with Customization  
- *            description: Codes for the source as well as the target languages, the text to be translated, and the customization file to be used. Everything inside quotes. <br /> <br /> - __SOURCE_LANGUAGE__ -- Source language code of your text ( __Minimum length of 2 and Maximum length of 5__ ). For example - "en" <br /> <br /> - __TARGET_LANGUAGE__ -- Target language code you want the text to be translated to ( __Minimum length of 2 and Maximum length of 5__ ). For example - "fr" <br /><br /> - __TEXT__ -- The text (in the source languge) you want to be tranlated ( __Maximum of 5,000 bytes long and Minimum length of 1__ ). <br /> <br /> - __TERMINOLOGY__ -- The name of the customization file; Please provide only 1 customization filename in the array. <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
+ *            description: Codes for the source as well as the target languages, the text to be translated, and the customization file to be used. Everything inside quotes. <br /> <br /> - __SOURCE_LANGUAGE__ -- Source language code of your text ( __Minimum length of 2 characters and Maximum length of 5 characters__ ). For example - "en" <br /> <br /> - __TARGET_LANGUAGE__ -- Target language code you want the text to be translated to ( __Minimum length of 2 characters and Maximum length of 5 characters__ ). For example - "fr" <br /><br /> - __TEXT__ -- The text (in the source languge) you want to be tranlated ( __Maximum of 5,000 bytes long and Minimum length of 1__ ). <br />  [Depending on your character set, this may be fewer than 5,000 characters. <br /> Approximately 4994 characters for English text (including punctuation marks, white space, comma etc.)] <br /> <br /> - __TERMINOLOGY__ -- The name of the customization file; Please provide only 1 customization filename in the array. <br /> >  Minimum length of 1 character and Maximum length of 256 characters. <br />  >  File name can contain characters from alphabets(both lower-case and upper-case), numbers(0-9), hyphen(-), and underscore(_). <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
  *            required: true
  *            schema:
  *              type: object
@@ -266,10 +266,10 @@ app.post('/api/translate/text-custom', cors(corsOptions), (req, res) => {
         var TERMINOLOGY = req.body.TERMINOLOGY; 
     }
 
-    //5000 bytes allowed - taking 1 byte per character here (unicode character could take 1-4 bytes)
-    if(req.body.TEXT.length > 1 && req.body.TEXT.length <= 5000){
-        var TEXT = req.body.TEXT;
-    }
+    //5000 bytes allowed - (unicode character could take 1-4 bytes)
+   // if(req.body.TEXT.length > 1 && req.body.TEXT.length <= 5000){
+      var TEXT = req.body.TEXT;
+   // }
 
     if(SOURCE_LANGUAGE && TARGET_LANGUAGE && TERMINOLOGY && TEXT){
         var params = {
@@ -322,7 +322,7 @@ app.post('/api/translate/text-custom', cors(corsOptions), (req, res) => {
  * /terminology:
  *    put:
  *      summary: Customize a terminology to appear the way you want in your translated text
- *      description: Create a new file or update an existing file (in the backend) with a terminology the way you want it to appear in your translated text. <br /> For example - 'United States' is translated to 'États-Unis' in French ("fr"). If you want this to appear as 'United States' in the French translation, you can define a customization file for this term. <br /><br /> __NOTE -__ <br /> - The source term within a custom terminology is case-sensitive and will not work for words that are not an exact match. <br /> - Please create 1 file per terminology. <br /> - File is automatically created as a csv file.  <br /><br /><br /> Please refer 'Find more details' section for compatible languages for customization.
+ *      description: Create a new file or update an existing file (in the backend) with a terminology the way you want it to appear in your translated text. <br /> For example - 'United States' is translated to 'États-Unis' in French ("fr"). If you want this to appear as 'United States' in the French translation, you can define a customization file for this term. <br /><br /> __NOTE -__ <br /> - The source term within a custom terminology is case-sensitive and will not work for words that are not an exact match. <br /> - Please create 1 file per terminology. <br /> - A file can contain a maximum of 256 terms.(Maximum length of 10485760 characters). <br /> - File is automatically created as a csv file.  <br /><br /><br /> Please refer 'Find more details' section for compatible languages for customization.
  *      tags:
  *          - 'Customization API'
  *      externalDocs:
@@ -333,7 +333,7 @@ app.post('/api/translate/text-custom', cors(corsOptions), (req, res) => {
  *      parameters:
  *          - in: body
  *            name: Customization
- *            description: <br /> - __description__ -- A description for the customization file. <br /> <br /> - __SourceLanguageCode__ -- Code for source language ( __Minimum length of 2 and Maximum length of 5__ ). For example - "en" <br /> <br /> - __SourceTerm__ -- The term to be customized (provide the term in the source language). For example - "United States" <br /> <br />  - __TargetLanguageCodes__ -- Array of code(s) for the target language(s) - multiple target language codes can be specified ( Each code __Minimum length of 2 and Maximum length of 5__ ). For example - ["fr", "de"] <br /> <br /> - __TargetTerm__ -- Array of the customized term you want in the translated text - provide the term corresponding to each language code specified in 'TargetLanguageCodes'. For example - ["United States", "United States"] for ["fr", "de"] ; ["United States"] for ["fr"] etc. <br /> <br /> - __FileName__ -- Provide a name for the file ( __Minimum length of 1 and Maximum length of 256__ ). Providing a file with the same name as an existing one will overwrite the content with the new definition (the overwritten terminology may take up to 10 minutes to fully propagate and be available for use in the translation). Run GET '/terminologies' API to check the names of existing files on the system. <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
+ *            description: <br /> - __description__ -- A description for the customization file. (__Maximum 256 characters__) <br /> <br /> - __SourceLanguageCode__ -- Code for source language ( __Minimum length of 2 characters and Maximum length of 5 characters__ ). For example - "en" <br /> <br /> - __SourceTerm__ -- The term to be customized (provide the term in the source language). For example - "United States" <br /> <br />  - __TargetLanguageCodes__ -- Array of code(s) for the target language(s) - multiple target language codes can be specified ( Each code __Minimum length of 2 characters and Maximum length of 5 characters__ ). For example - ["fr", "de"] - in this case the customization will be set for both French("fr") and German("de") <br /> <br /> - __TargetTerm__ -- Array of the customized term you want in the translated text - provide the term corresponding to each language code specified in 'TargetLanguageCodes'. For example - ["United States", "United States"] for ["fr", "de"] ; ["United States"] for ["fr"] etc. <br /> <br /> - __FileName__ -- Provide a name for the file. <br /> >  Minimum length of 1 character and Maximum length of 256 characters. <br />  >  File name can contain characters from alphabets(both lower-case and upper-case), numbers(0-9), hyphen(-), and underscore(_). <br /> >  Providing a file with the same name as an existing one will overwrite the content with the new definition (the overwritten terminology may take up to 10 minutes to fully propagate and be available for use in the translation). Run GET '/terminologies' API to check the names of existing files on the system. <br /><br /><br /> CLICK ON 'Model' TO CHECK FOR THE REQUIRED FIELDS
  *            required: true
  *            schema:
  *              type: object
@@ -380,13 +380,7 @@ app.post('/api/translate/text-custom', cors(corsOptions), (req, res) => {
 
     //sanitization and validation
 
-    if(req.body.description){
-        if(req.body.description.length >= 1 && req.body.description.length <= 256){
-            var description = req.body.description;
-        }
-    }else{
-        var description = req.body.description;
-    }
+    var description = req.body.description;
 
     if(req.body.SourceLanguageCode.length >= 2 && req.body.SourceLanguageCode.length <= 5){
         var SourceLanguageCode = req.body.SourceLanguageCode;
@@ -404,26 +398,15 @@ app.post('/api/translate/text-custom', cors(corsOptions), (req, res) => {
     if(CodeFlag){
         var TargetLanguageCodes = req.body.TargetLanguageCodes;
     }
+    
+    var SourceTerm = req.body.SourceTerm;
 
-    if(req.body.SourceTerm.length >=1 && req.body.SourceTerm.length <= 5000){
-        var SourceTerm = req.body.SourceTerm;
-    }
-
-    var j;
-    var TermFlag = true;
-    for(j=0; j<req.body.TargetTerm.length; j++){
-        if(req.body.TargetTerm[j].length >= 1 && req.body.TargetTerm[j].length <= 5000){
-            continue 
-        }else{
-            TermFlag = false;
-        }
-    }
-    if(TermFlag){
-        var TargetTerm = req.body.TargetTerm;
-    }
+    var TargetTerm = req.body.TargetTerm;
 
     if(req.body.FileName.length >= 1 && req.body.FileName.length <= 256){
-        var FileName = req.body.FileName;
+	if(/^([A-Za-z0-9-]_?)+$/.test(req.body.FileName)){
+	      var FileName = req.body.FileName;
+        }
     }
 
     if(SourceLanguageCode && TargetLanguageCodes && SourceTerm && TargetTerm && FileName){
@@ -546,14 +529,14 @@ app.get('/api/translate/terminologies', cors(corsOptions), (req, res) =>{
  * @swagger
  * /terminology/{FileName}:
  *    get:
- *      summary: Retrieve properties of a customization file
+ *      summary: Retrieve details of a customization file
  *      description: Returns properties and repository type of the customization file specified. 
  *      tags:
  *          - 'Customization API'
  *      parameters:
  *          - in: path
  *            name: FileName
- *            description:  The name of the customization file to be retrieved ( __Minimum length of 1 and Maximum length of 256__ ).
+ *            description:  The name of the customization file to be retrieved. <br /><br /> -   Minimum length of 1 character and Maximum length of 256 characters. <br /> -  File name can contain characters from alphabets(both lower-case and upper-case), numbers(0-9), hyphen(-), and underscore(_). 
  *            required: true
  *            type: string
  *      responses:
@@ -622,7 +605,7 @@ app.get('/api/translate/terminology/:FileName', cors(corsOptions), (req, res) =>
  *      parameters:
  *          - in: path
  *            name: FileName
- *            description: The name of the customization file to be deleted ( __Minimum length of 1 and Maximum length of 256__ ).
+ *            description: The name of the customization file to be deleted. <br /><br /> -  Minimum length of 1 character and Maximum length of 256 characters. <br /> -  File name can contain characters from alphabets(both lower-case and upper-case), numbers(0-9), hyphen(-), and underscore(_).
  *            required: true
  *            type: string
  *      responses:
