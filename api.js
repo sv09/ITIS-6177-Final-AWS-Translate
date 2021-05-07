@@ -146,7 +146,7 @@ app.use(cors());
 
     //5000 bytes allowed - (unicode character could take 1-4 bytes) 
    // if(req.body.TEXT.length > 1 && req.body.TEXT.length <= 5000){
-      var TEXT = req.body.TEXT;
+    var TEXT = req.body.TEXT;
    // }
     
     if(SOURCE_LANGUAGE && TARGET_LANGUAGE && TEXT){
@@ -268,7 +268,7 @@ app.post('/api/translate/text-custom', cors(corsOptions), (req, res) => {
 
     //5000 bytes allowed - (unicode character could take 1-4 bytes)
    // if(req.body.TEXT.length > 1 && req.body.TEXT.length <= 5000){
-      var TEXT = req.body.TEXT;
+    var TEXT = req.body.TEXT;
    // }
 
     if(SOURCE_LANGUAGE && TARGET_LANGUAGE && TERMINOLOGY && TEXT){
